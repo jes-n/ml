@@ -24,7 +24,7 @@ def costFunction(theta, X, y):
 	return cost, grad
 
 
-X = np.loadtxt(os.path.join("..", "ex2data1.txt"), delimiter=",")
+X = np.loadtxt("ex2data1.txt", delimiter=",")
 [m,n] = X.shape
 y = X[:,[-1]]
 X = np.delete(X, -1, axis=1)
@@ -57,7 +57,7 @@ print("Prediciton:", float(sigmoid(np.dot(np.array([1, 45, 85]), res.x.reshape(1
 print("Expected prediction of", 0.776)
 theta = res.x
 
-fig = plt.figure()
+fig = plt.figure(figsize=(7,6))
 ax = fig.add_subplot(111)
 
 ax.spines['top'].set_visible(False)
@@ -65,12 +65,19 @@ ax.spines['right'].set_visible(False)
 ax.get_xaxis().tick_bottom()
 ax.get_yaxis().tick_left()
 
-ax.scatter(X[:,1], X[:,2], c=y, cmap=cm.Paired)
+for i, admission in enumerate(y):
+	if (int(admission) == 0):
+		na = ax.scatter(X[i,1], X[i,2], color="#FDB515", marker="o", alpha=0.5, edgecolor='k')
+	else:
+		a = ax.scatter(X[i,1], X[i,2], color="#003262", marker="+", s=75, alpha=0.75, edgecolor='k')
 
 boundary = lambda x, theta: (-1.0/theta[2])*(theta[1]*x + theta[0])
-x = np.linspace(30, 100, 50)
-plt.plot(x, boundary(x, theta))
-plt.xlim(30,100)
-plt.ylim(30,100)
+x = np.linspace(29, 101, 50)
+plt.plot(x, boundary(x, theta), color="#3B7EA1", alpha=0.75, lw=0.85, ls="--")
+plt.xlim(29,101)
+plt.ylim(29,101)
 
+plt.xlabel("Exam 1 Score")
+plt.ylabel("Exam 2 Score")
+plt.legend([na, a], ["Not Admitted", "Admitted"], loc="upper right", scatterpoints=1, fancybox=False)
 plt.show()
