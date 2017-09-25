@@ -9,7 +9,7 @@ The results are saved as plots (`ex2-1.svg`) with the accepted and rejected data
 
 ## Results
 The first classification problem invovled two exam scores and the resulting admission or rejection from a school. A first-order model was fit to the data and is shown on the plot as the blue dotted line.
-![Logistic Regression](https://github.com/jesse-norris/ml/lr/ex2-1.svg)
+![Logistic Regression](ex2-1.svg)
 
 The second classification problem invovled two tests. This time a sixth-order model was fit to the data with regularization ($\lambda$), due to the potential for overfitting. The unregularized, sixth-order decision boundary is shown as the blue dotted lined.
 ![Logistic Regression with Regularizaiton](https://github.com/jesse-norris/ml/lr/ex2-2.svg)
