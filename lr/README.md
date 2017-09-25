@@ -12,7 +12,7 @@ The first classification problem invovled two exam scores and the resulting admi
 
 ![Logistic Regression](ex2-1.svg)
 
-The second classification problem invovled two tests. This time a sixth-order model was fit to the data with regularization ($\lambda$), due to the potential for overfitting. The unregularized, sixth-order decision boundary is shown as the blue dotted lined.
+The second classification problem invovled two tests. This time a sixth-order model was fit to the data with regularization, due to the potential for overfitting. The unregularized, sixth-order decision boundary is shown as the blue dotted lined.
 
 ![Logistic Regression with Regularizaiton](ex2-2.svg)
 
