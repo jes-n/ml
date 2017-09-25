@@ -5,7 +5,7 @@ The `lr.py` file uses logistic regression with a first-order decision boundary a
 
 The data files are `ex2data1.txt` for `lr.py` and `ex2data2.txt` for `rlr.py`.
 
-The results are saved as plots (`ex2-1.svg`) with the accepted and rejected data points along with a plotted decision boundary.
+The results are saved as plots (`ex2-1.svg` and `ex2-2.svg`) with the accepted and rejected data points along with a plotted decision boundary.
 
 ## Results
 The first classification problem invovled two exam scores and the resulting admission or rejection from a school. A first-order model was fit to the data and is shown on the plot as the blue dotted line.
