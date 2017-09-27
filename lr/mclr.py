@@ -1,7 +1,7 @@
+import os, sys, time
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
-import time
 
 ### "ex3data.txt" contains 5,000 samples of 401 element arrays
 ### These correspond to 20x20 pixel images (400 elements) and 1 classification

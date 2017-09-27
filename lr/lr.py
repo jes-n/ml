@@ -1,7 +1,6 @@
-import os, sys
+import os, sys, time
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 from scipy.optimize import minimize
 
 def sigmoid(z):
