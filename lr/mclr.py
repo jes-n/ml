@@ -73,26 +73,26 @@ def callback(xk):
 ### This will be done by iterating over each class
 ### A Conjugate Gradient minimization will be preformed to determine each set of weight vectors
 ###################
-start = time.time() # For minimization timing purposes
-# samples = 500
-for i in range(classes):
-	print("Learning {}".format(i))
-	cat = [1 if (int(val)%10 == i) else 0 for val in y]
-	cat = np.array((cat)).reshape(m,1)
-	res = minimize(costFunction, theta[[i]], args=(X, cat),
-		method='BFGS', options={"disp":True, "gtol":5e-4}, callback=callback)
-	print(res.message)
-	# print("Weight vector for '{}':".format(i), res.x)
-	print("Minimum cost for '{}':".format(i), costFunction(res.x.reshape(1,n), X, cat))
-	theta[i,:] = res.x.reshape(1,n)
-print("Time elapsed:", time.time() - start, "seconds") # Show the elapsed time
-### Save the weight vector 'theta' for later use because it is computationally expensive
-np.savetxt("weights.txt", theta, delimiter=",")
+# start = time.time() # For minimization timing purposes
+# # samples = 500
+# for i in range(classes):
+# 	print("Learning {}".format(i))
+# 	cat = [1 if (int(val)%10 == i) else 0 for val in y]
+# 	cat = np.array((cat)).reshape(m,1)
+# 	res = minimize(costFunction, theta[[i]], args=(X, cat),
+# 		method='BFGS', options={"disp":True, "gtol":5e-4}, callback=callback)
+# 	print(res.message)
+# 	# print("Weight vector for '{}':".format(i), res.x)
+# 	print("Minimum cost for '{}':".format(i), costFunction(res.x.reshape(1,n), X, cat))
+# 	theta[i,:] = res.x.reshape(1,n)
+# print("Time elapsed:", time.time() - start, "seconds") # Show the elapsed time
+# ### Save the weight vector 'theta' for later use because it is computationally expensive
+# np.savetxt("weights.txt", theta, delimiter=",")
 ###################
 ### Load the previously determined weight vector
-# theta = np.loadtxt("weights-BFGS-5e-4.txt", delimiter=",")
+theta = np.loadtxt("weights.txt", delimiter=",")
 ### Verify the dimensions and type of 'theta'
-# print("theta:", theta.shape, type(theta))
+print("theta:", theta.shape, type(theta))
 ###################
 
 ### The prediction step
