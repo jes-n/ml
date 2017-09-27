@@ -32,7 +32,7 @@ def mapFeature(X1, X2, degree=6):
 			dim += 1
 	return X
 
-X = np.loadtxt("ex2data2.txt", delimiter=",")
+X = np.loadtxt(os.path.join("..", "data", "ex2data2.txt"), delimiter=",")
 [m,n] = X.shape
 y = X[:,[-1]]
 X = np.delete(X, -1, axis=1)

@@ -6,7 +6,7 @@ import time
 ### "ex3data.txt" contains 5,000 samples of 401 element arrays
 ### These correspond to 20x20 pixel images (400 elements) and 1 classification
 ### The images are written numbers and the classifications are the number (0-9)
-X = np.loadtxt("ex3data1.txt", delimiter=",", skiprows=1)
+X = np.loadtxt(os.path.join("..", "data", "ex3data1.txt"), delimiter=",", skiprows=1)
 [m,n] = X.shape
 # Assign 'y' as the classification array
 y = X[:,[-1]]

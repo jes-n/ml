@@ -24,7 +24,7 @@ def costFunction(theta, X, y):
 	return cost, grad
 
 
-X = np.loadtxt("ex2data1.txt", delimiter=",")
+X = np.loadtxt(os.path.join("..", "data", "ex2data1.txt"), delimiter=",")
 [m,n] = X.shape
 y = X[:,[-1]]
 X = np.delete(X, -1, axis=1)
