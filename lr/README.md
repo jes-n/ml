@@ -20,7 +20,7 @@ The second classification problem invovled two tests. This time a sixth-order mo
 The most important concept to keep in mind when using Python and NumPy for matrix algebra is the dimensionality of the arrays, vectors, and lists that you are operating on. By default, Python does not include any form of vector or matrix operations, instead using a data type called a 'list'. NumPy, part of the scientific computing module stack for Python, adds multi-dimensional arrays and operators for these arrays.
 
 #### MATLAB .mat to .csv
-x = load(input)
-temp = struct2table(x)
-writeable(temp, output)
+```
+writeable(struct2table(load(input)), output)
+```
 where input is the .mat file and output is the .csv file
