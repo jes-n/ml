@@ -95,15 +95,17 @@ theta = np.loadtxt("weights.txt", delimiter=",")
 print("theta:", theta.shape, type(theta))
 ###################
 
-### The prediction step
+### 'hypothesis' contains a 5000x10 matrix
+### Each row i corresponds to the probabilities of image i being a given number
+hypothesis = sigmoid(np.dot(X, theta.T))
+### Check the predictions
 correct = 0
-for i, img, cat in zip(range(len(y)), X, y):
-	res = costFunction(theta, img.reshape(1, theta.shape[1]), y)
-	if (int(cat)%10 == int(np.argmin(res))):
+for i, hyp, img in zip(range(len(y)), hypothesis, y):
+	if (int(img)%10 == int(np.argmax(hyp))):
 		# print("Success!")
 		correct += 1
 	else:
-		print("#{} (guess: {}, actual: {})".format(i, int(np.argmin(res)), int(cat)%10))
+		print("#{} (guess: {}, actual: {})".format(i, int(np.argmax(hyp)), int(img)%10))
 
 ### Display the final results!
 print("{} right out of 5000 ({}%)".format(correct, '%0.1f'%(correct/5000*100)))
