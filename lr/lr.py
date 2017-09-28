@@ -28,6 +28,9 @@ X = np.loadtxt(os.path.join("..", "data", "ex2data1.txt"), delimiter=",")
 y = X[:,[-1]]
 X = np.delete(X, -1, axis=1)
 
+print("X:", X.shape, type(X))
+print("y:", y.shape, type(y))
+
 ### Add a column of ones to X
 X = np.column_stack((np.ones(m), X))
 
