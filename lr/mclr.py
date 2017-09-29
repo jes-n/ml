@@ -3,10 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 
-### "ex3data1.txt" contains 5,000 samples of 401 element arrays
+### "ex3data1.csv" contains 5,000 samples of 401 element arrays
 ### These correspond to 20x20 pixel images (400 elements) and 1 classification
 ### The images are written numbers and the classifications are the number (0-9)
-X = np.loadtxt(os.path.join("..", "data", "ex3data1.txt"), delimiter=",", skiprows=1)
+X = np.loadtxt(os.path.join("..", "data", "ex3data1.csv"), delimiter=",", skiprows=1)
 [m,n] = X.shape
 # Assign 'y' as the classification array
 y = X[:,[-1]]
@@ -73,26 +73,26 @@ def callback(xk):
 ### This will be done by iterating over each class
 ### A Conjugate Gradient minimization will be preformed to determine each set of weight vectors
 ###################
-start = time.time() # For minimization timing purposes
+# start = time.time() # For minimization timing purposes
 # samples = 500
-for i in range(classes):
-	print("Learning {}".format(i))
-	cat = [1 if (int(val)%10 == i) else 0 for val in y]
-	cat = np.array((cat)).reshape(m,1)
-	res = minimize(costFunction, theta[[i]], args=(X, cat),
-		method='BFGS', options={"disp":True, "gtol":5e-4}, callback=callback)
-	print(res.message)
-	# print("Weight vector for '{}':".format(i), res.x)
-	print("Minimum cost for '{}':".format(i), costFunction(res.x.reshape(1,n), X, cat))
-	theta[i,:] = res.x.reshape(1,n)
-print("Time elapsed:", time.time() - start, "seconds") # Show the elapsed time
-### Save the weight vector 'theta' for later use because it is computationally expensive
-np.savetxt("weights.txt", theta, delimiter=",")
+# for i in range(classes):
+# 	print("Learning {}".format(i))
+# 	cat = [1 if (int(val)%10 == i) else 0 for val in y]
+# 	cat = np.array((cat)).reshape(m,1)
+# 	res = minimize(costFunction, theta[[i]], args=(X, cat),
+# 		method='BFGS', options={"disp":True, "gtol":5e-4}, callback=callback)
+# 	print(res.message)
+# 	# print("Weight vector for '{}':".format(i), res.x)
+# 	print("Minimum cost for '{}':".format(i), costFunction(res.x.reshape(1,n), X, cat))
+# 	theta[i,:] = res.x.reshape(1,n)
+# print("Time elapsed:", time.time() - start, "seconds") # Show the elapsed time
+# ### Save the weight vector 'theta' for later use because it is computationally expensive
+# np.savetxt("weights.csv", theta, delimiter=",")
 ###################
-# ### Load the previously determined weight vector
-# theta = np.loadtxt("weights.txt", delimiter=",")
-# ### Verify the dimensions and type of 'theta'
-# print("theta:", theta.shape, type(theta))
+### Load the previously determined weight vector
+theta = np.loadtxt("weights.csv", delimiter=",")
+### Verify the dimensions and type of 'theta'
+print("theta:", theta.shape, type(theta))
 ###################
 
 ### 'hypothesis' contains a 5000x10 matrix

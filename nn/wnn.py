@@ -3,10 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 
-### "ex3data1.txt" contains 5,000 samples of 401 element arrays
+### "ex3data1.csv" contains 5,000 samples of 401 element arrays
 ### These correspond to 20x20 pixel images (400 elements) and 1 classification
 ### The images are written numbers and the classifications are the number (0-9)
-X = np.loadtxt(os.path.join("..", "data", "ex3data1.txt"), delimiter=",", skiprows=1)
+X = np.loadtxt(os.path.join("..", "data", "ex3data1.csv"), delimiter=",", skiprows=1)
 [m,n] = X.shape
 # Assign 'y' as the classification array
 y = X[:,[-1]]
@@ -35,8 +35,8 @@ print("X:", X.shape, type(X))
 print("y:", y.shape, type(y))
 
 ### Load the weight vectors of Neural Network
-theta1 = np.loadtxt("ex3weights1.txt", delimiter=",")
-theta2 = np.loadtxt("ex3weights2.txt", delimiter=",")
+theta1 = np.loadtxt("ex3weights1.csv", delimiter=",")
+theta2 = np.loadtxt("ex3weights2.csv", delimiter=",")
 ### Verify the dimensions and type of 'theta1' and 'theta2'
 print("theta1:", theta1.shape, type(theta1))
 print("theta2:", theta2.shape, type(theta2))

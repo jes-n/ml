@@ -16,7 +16,7 @@ Applying multi-layer neural networks to more efficiently and accurately predict 
 * ```wnn.py``` - Pre-weighted, 3-layer neural network
 
 ### data
-All of the data used in the machine learning software is kept here as CSV text files.
-* ```ex2data1.txt``` - 100 samples of two exam scores and a admission or rejection decision (used by ```lr.py```)
-* ```ex2data2.txt``` - 118 samples of two tests and an overall pass or fail (used by ```rlr.py```)
-* ```ex3data1.txt``` - 5000 20x20 pixel images of hand-written numbers between 0 and 9 (used by ```mclr.py``` and ```wnn.py```)
+All of the data used in the machine learning software is kept here as CSV files.
+* ```ex2data1.csv``` - 100 samples of two exam scores and a admission or rejection decision (used by ```lr.py```)
+* ```ex2data2.csv``` - 118 samples of two tests and an overall pass or fail (used by ```rlr.py```)
+* ```ex3data1.csv``` - 5000 20x20 pixel images of hand-written numbers between 0 and 9 (used by ```mclr.py``` and ```wnn.py```)

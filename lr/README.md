@@ -1,4 +1,5 @@
 # Logistic Regression
+Logistic regression is based on the Sigmoid (or )
 This example applies logistic regression to classify admission based on two exam scores.
 
 The `lr.py` file uses logistic regression with a first-order decision boundary and `rlr.py` uses a sixth-order decision boundary along with regularization to combat over-fitting.
