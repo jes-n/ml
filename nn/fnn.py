@@ -35,14 +35,14 @@ print("X:", X.shape, type(X))
 print("y:", y.shape, type(y))
 
 ### Load the weight vectors of Neural Network
-theta1 = np.loadtxt("ex3weights1.csv", delimiter=",")
-theta2 = np.loadtxt("ex3weights2.csv", delimiter=",")
-### Verify the dimensions and type of 'theta1' and 'theta2'
-print("theta1:", theta1.shape, type(theta1))
-print("theta2:", theta2.shape, type(theta2))
+Theta1 = np.loadtxt("ex3weights1.csv", delimiter=",")
+Theta2 = np.loadtxt("ex3weights2.csv", delimiter=",")
+### Verify the dimensions and type of 'Theta1' and 'Theta2'
+print("Theta1:", Theta1.shape, type(Theta1))
+print("Theta2:", Theta2.shape, type(Theta2))
 
 ### Determine the second activation function
-a2 = sigmoid(np.dot(X,theta1.T))
+a2 = sigmoid(np.dot(X,Theta1.T))
 ### Verify 'a2'
 print("a2:", a2.shape, type(a2))
 ### Add the bias vector to 'a2'
@@ -51,7 +51,7 @@ a2 = np.insert(a2, 0, np.ones((1,m)), axis=1)
 print("a2:", a2.shape, type(a2))
 print("a2[0]:", a2[0])
 ### Determine the their activiation function (the hypothesis)
-a3 = sigmoid(np.dot(a2,theta2.T))
+a3 = sigmoid(np.dot(a2,Theta2.T))
 ### Verify 'a3'
 print("a3:", a3.shape, type(a3))
 print("a3[0]:", a3[0])
