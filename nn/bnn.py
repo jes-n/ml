@@ -85,6 +85,8 @@ Theta = np.concatenate((Theta1.ravel(), Theta2.ravel()))
 # Theta = np.concatenate((Theta1.ravel(), Theta2.ravel()))
 # cost = costFunction(Theta, s1, s2, s3, X, y)
 # print("Cost:", cost, "(should be 0.287629)")
+# cost = costFunction(Theta, s1, s2, s3, X, y, lamb=1)
+# print("Cost:", cost, "(should be 0.383770)")
 ##############
 
 ##### Test case for 'ex4'
@@ -97,7 +99,7 @@ Theta = np.concatenate((Theta1.ravel(), Theta2.ravel()))
 # y = np.array([[4], [2], [3]])
 # cost = costFunction(nn, il, hl, nl, X, y)
 # print("Cost:", cost, "(should be 7.4070)")
-# cost = costFunction(nn, il, hl, nl, X, y, lamb=4, check=True)
+# cost = costFunction(nn, il, hl, nl, X, y, lamb=4)
 # print("Cost:", cost, "(should be 19.474)")
 ##############
 
@@ -107,6 +109,3 @@ Theta = np.concatenate((Theta1.ravel(), Theta2.ravel()))
 # print("Theta1:", Theta1.shape, type(Theta1))
 # print("Theta2:", Theta2.shape, type(Theta2))
 # print("Theta:", Theta.shape, type(Theta))
-
-cost = costFunction(Theta, s1, s2, s3, X, y, lamb=1, check=True)
-print("Cost:", cost, "(should be 0.383770)")
