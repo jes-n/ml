@@ -74,7 +74,6 @@ def callback(xk):
 ### A Conjugate Gradient minimization will be preformed to determine each set of weight vectors
 ###################
 # start = time.time() # For minimization timing purposes
-# samples = 500
 # for i in range(classes):
 # 	print("Learning {}".format(i))
 # 	cat = [1 if (int(val)%10 == i) else 0 for val in y]

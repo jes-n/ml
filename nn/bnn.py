@@ -22,9 +22,11 @@ def costFunction(Theta, ninput, nhidden, nclasses, X, y, lamb=0, check=False):
 
 	### Determine the second activation function
 	a2 = sigmoid(np.dot(X,Theta1.T))
-	a2 = np.insert(a2, 0, np.ones((1,m)), axis=1) # Add the bias vector to 'a2'
+	a2 = np.column_stack((np.ones(m), a2)) # Add the bias vector to 'a2'
+	print(a2)
 	### Determine the third activiation function (the hypothesis)
 	a3 = sigmoid(np.dot(a2,Theta2.T))
+	print(a3)
 	
 	### Check the dimensionality
 	if (check):
@@ -39,13 +41,20 @@ def costFunction(Theta, ninput, nhidden, nclasses, X, y, lamb=0, check=False):
 
 	### Sum the cost function over all classes
 	cost = np.zeros(m)
+	d2 = np.zeros(m)
+	d3 = np.zeros(m)
 	for i in range(m):
 		yi = int(y[[i]])
 		cat = [1 if (val == yi) else 0 for val in range(1,nclasses+1)]
-		cat = np.array((cat)).reshape(1,nclasses)
+		cat = np.column_stack(np.array((cat)))
 		# print(int(yi), cat)
+		# print(cat.shape, a3[[i]].shape)
+		# print(cat, 1-cat, a3[[i]])
+		# print(i)
 		cost[i] += np.sum(np.multiply(-cat,np.log(a3[[i]])) - np.multiply((1-cat),np.log(1-a3[[i]])), axis=1)
 		# print("cost[{}] = {}".format(i, cost[i]))
+		d3 = a3[[i]] - cat
+		d2 = np.multiply(np.multiply(Theta2.T, d3[[i]]), sigprime(np.dot(a2,Theta2.T)))
 
 	### Apply Regularization
 	reg = (lamb/2/m)*(np.sum(np.sum(np.power(Theta1[:,1:],2), axis=1), axis=0) + np.sum(np.sum(np.power(Theta2[:,1:],2), axis=1), axis=0))
@@ -70,7 +79,7 @@ X = np.delete(X, -1, axis=1)
 # Define the number of classes (k)
 k = 10
 ### Assume weight matricies of random floats between -epsilon and +epsilon
-epsilon = 0.1
+epsilon = 0.12
 s1, s2, s3 = n, 25, k
 Theta1 = np.subtract(np.multiply(2*epsilon, np.random.rand(s2,s1+1)), epsilon)
 [m1,n1] = Theta1.shape
@@ -83,9 +92,9 @@ Theta = np.concatenate((Theta1.ravel(), Theta2.ravel()))
 # Theta1 = np.loadtxt("ex3weights1.csv", delimiter=",")
 # Theta2 = np.loadtxt("ex3weights2.csv", delimiter=",")
 # Theta = np.concatenate((Theta1.ravel(), Theta2.ravel()))
-# cost = costFunction(Theta, s1, s2, s3, X, y)
+# cost = costFunction(Theta, s1, s2, s3, X, y, check=True)
 # print("Cost:", cost, "(should be 0.287629)")
-# cost = costFunction(Theta, s1, s2, s3, X, y, lamb=1)
+# cost = costFunction(Theta, s1, s2, s3, X, y, lamb=1, check=True)
 # print("Cost:", cost, "(should be 0.383770)")
 ##############
 
@@ -94,18 +103,42 @@ Theta = np.concatenate((Theta1.ravel(), Theta2.ravel()))
 # il = 2
 # hl = 2
 # nl = 4
-# nn = (np.arange(1,18+1)/10).reshape(18,1)
+# nn = np.arange(1,18+1)/10
 # X = np.cos(np.array([[1, 2], [3, 4], [5, 6]]))
 # y = np.array([[4], [2], [3]])
-# cost = costFunction(nn, il, hl, nl, X, y)
+# cost = costFunction(nn, il, hl, nl, X, y, check=True)
 # print("Cost:", cost, "(should be 7.4070)")
-# cost = costFunction(nn, il, hl, nl, X, y, lamb=4)
+# cost = costFunction(nn, il, hl, nl, X, y, lamb=4, check=True)
 # print("Cost:", cost, "(should be 19.474)")
 ##############
 
 ### Verify the dimensions and type of 'X', 'y', and the weight matricies
-# print("X:", X.shape, type(X))
-# print("y:", y.shape, type(y))
-# print("Theta1:", Theta1.shape, type(Theta1))
-# print("Theta2:", Theta2.shape, type(Theta2))
-# print("Theta:", Theta.shape, type(Theta))
+print("X:", X.shape, type(X))
+print("y:", y.shape, type(y))
+print("Theta1:", Theta1.shape, type(Theta1))
+print("Theta2:", Theta2.shape, type(Theta2))
+print("Theta:", Theta.shape, type(Theta))
+
+### Determine the weight vector for each classification
+###################
+### This will be done by iterating over each class
+### A Conjugate Gradient minimization will be preformed to determine each set of weight vectors
+###################
+# start = time.time() # For minimization timing purposes
+# for i in range(classes):
+# 	print("Learning {}".format(i))
+# 	yi = int(y[[i]])
+# 	cat = [1 if (val == yi) else 0 for val in range(1,nclasses+1)]
+# 	cat = np.column_stack(np.array((cat)))
+# 	cat = [1 if (int(val)%10 == i) else 0 for val in y]
+# 	cat = np.array((cat)).reshape(m,1)
+# 	res = minimize(costFunction, theta[[i]], args=(X, cat),
+# 		method='BFGS', options={"disp":True, "gtol":5e-4}, callback=callback)
+# 	print(res.message)
+# 	# print("Weight vector for '{}':".format(i), res.x)
+# 	print("Minimum cost for '{}':".format(i), costFunction(res.x.reshape(1,n), X, cat))
+# 	theta[i,:] = res.x.reshape(1,n)
+# print("Time elapsed:", time.time() - start, "seconds") # Show the elapsed time
+# ### Save the weight vector 'theta' for later use because it is computationally expensive
+# np.savetxt("weights.csv", theta, delimiter=",")
+
