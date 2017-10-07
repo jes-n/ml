@@ -5,6 +5,9 @@ from scipy.optimize import minimize
 # Module to display 'ex3data1.csv'
 from displayex3 import displayData, displayImage
 
+def sigmoid(z):
+	return 1/(1+np.exp(-z))
+
 ### "ex3data1.csv" contains 5,000 samples of 401 element arrays
 ### These correspond to 20x20 pixel images (400 elements) and 1 classification
 ### The images are written numbers and the classifications are the number (0-9)
@@ -22,9 +25,6 @@ X = np.delete(X, -1, axis=1)
 
 # Add the bias array to 'X'
 X = np.column_stack((np.ones(m), X))
-
-def sigmoid(z):
-	return 1/(1+np.exp(-z))
 
 # Define the number of classes
 classes = 10
