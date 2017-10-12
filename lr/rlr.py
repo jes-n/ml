@@ -6,11 +6,6 @@ from scipy.optimize import minimize
 def sigmoid(z):
 	return 1/(1+np.exp(-z))
 
-def _costFunctionReg(theta, X, y, lamb=0):
-	_hyp = lambda X: sigmoid(np.dot(X,theta.T))
-	theta = theta.reshape(1,X.shape[1])
-	return np.average(np.multiply(-y,np.log(_hyp(X))) - np.multiply((1-y),np.log(1-_hyp(X)))) + (lamb/(2*X.shape[1]))*np.sum(np.power(np.delete(theta, 0, axis=1),2))
-
 def costFunctionReg(Theta, X, y, lamb=0, check=False):
 	### Adjust the feature matrix to ensure that the dimensions are (# features)x(# data points)
 	[n,m] = X.shape
@@ -21,7 +16,7 @@ def costFunctionReg(Theta, X, y, lamb=0, check=False):
 	# elif (n == m):
 	# 	print("Warning: 'X' is a square matrix, ensure it is of dimensions (# features)x(# data points)")
 	### Add the bias array to 'X'
-	X = np.concatenate((np.ones((n,1)), X), axis=1)
+	X = np.concatenate((np.ones((1,m)), X), axis=0)
 	if (check):
 		print("X:", X.shape, type(X))
 		print("y:", y.shape, type(y))
@@ -29,12 +24,9 @@ def costFunctionReg(Theta, X, y, lamb=0, check=False):
 
 	hyp = lambda Theta, X: sigmoid(np.dot(Theta.T,X))
 	cost = (np.multiply(-y,np.log(hyp(Theta,X))) - np.multiply((1-y),np.log(1-hyp(Theta,X))))
-	print(X[:,0].shape, Theta.T.shape, X.shape)
-	print(hyp(Theta,X).shape, sigmoid(np.dot(Theta.T,X)).shape)
-	print((hyp(Theta,X)-y).shape)
-	grad = []
-	for j in range(m+1):
-		grad.append(np.average(np.multiply(hyp(Theta,X)-y, X[:,j]), axis=1))
+	# grad = []
+	# for j in range(m+1):
+	# 	grad.append(np.average(np.multiply(hyp(Theta,X)-y, X[:,j]), axis=1))
 
 	# print(np.power(Theta[1:],2).shape)
 	regularization = (lamb/(2*m))*(np.sum(np.power(Theta[1:],2)))
@@ -56,11 +48,18 @@ def mapFeature(X, degree=6):
 	This can be quickly written in Python as the sum(range(n+2))
 	"""
 	dim = 1
-	[m,n] = X.shape
+	try:
+		[m,n] = X.shape
+	except:
+		n = len(X)
+		m = 1
 	mapped = np.ones((m,sum(range(degree+2))))
 	for i in range(1, degree+1):
 		for j in range(i+1):
-			mapped[:,dim] = np.multiply(np.power(X[:,0], (i-j)), np.power(X[:,1], j))
+			try:
+				mapped[:,dim] = np.multiply(np.power(X[:,0], (i-j)), np.power(X[:,1], j))
+			except:
+				mapped[:,dim] = np.multiply(np.power(X[0], (i-j)), np.power(X[1], j))
 			dim +=1
 	return mapped
 
@@ -69,20 +68,16 @@ X = np.loadtxt(os.path.join("..", "data", "ex2data2.csv"), delimiter=",")
 y = X[:,[-1]]
 X = np.delete(X, -1, axis=1)
 
-theta = np.zeros((m,1))
-
-print("X:", X.shape, type(X))
-print("y:", y.shape, type(y))
-print("Theta", theta.shape, type(theta))
-
-# X = mapFeature(X, degree=6)
 # print("X:", X.shape, type(X))
+# print("y:", y.shape, type(y))
+# print("Theta", theta.shape, type(theta))
 
-cost, grad = costFunctionReg(theta, X, y, lamb=0, check=True)
-print("Cost:", cost)
-print("Expected cost (approx): 0.693")
-print("Grad:", grad)
-print("Expected gradients (approx): [-0.1000, -12.0092, -11.2628]")
+# theta = np.zeros((n,1))
+# cost = costFunctionReg(theta, X, y, lamb=0, check=True)
+# print("Cost:", cost)
+# print("Expected cost (approx): 0.693")
+# print("Grad:", grad)
+# print("Expected gradients (approx): [-0.1000, -12.0092, -11.2628]")
 
 ##### Unregularized test case
 # X = np.array(([8, 1, 6],
@@ -101,12 +96,16 @@ print("Expected gradients (approx): [-0.1000, -12.0092, -11.2628]")
 # print("\tExpected cost (approx): 8.6832")
 ##########
 
-# res = minimize(_costFunctionReg, theta, args=(X, y),
-# 	method='BFGS', options={"maxiter":500, "disp":True}, callback=None)
+X = mapFeature(X, degree=6)
+print("X:", X.shape, type(X))
+[m,n] = X.shape
+theta = np.zeros((n+1,1))
+res = minimize(costFunctionReg, theta, args=(X.T, y, 0, True),
+	method='BFGS', callback=None,
+	options={"maxiter":500, "disp":True})
 
-# print("\nSolution:", res.x, "with cost =", _costFunctionReg(res.x.reshape(1,28), X, y))
-# theta = res.x
-
+theta = res.x
+print("\nSolution:", res.x, "with cost =", costFunctionReg(theta.reshape(1,n+1), X, y))
 
 ##### Plotting the Results
 # fig = plt.figure(figsize=(7,6))
@@ -130,9 +129,14 @@ print("Expected gradients (approx): [-0.1000, -12.0092, -11.2628]")
 # W = np.zeros((len(u),len(v)))
 # for i in range(len(u)):
 # 	for j in range(len(v)):
-# 		W[i,j] = np.dot(mapFeature(u[i].reshape(1,1), v[j].reshape(1,1)), theta.T)
+# 		dummy = np.array((u[i], v[j]))
+# 		print(mapFeature(dummy, degree=6).shape, np.ones((1,1)).shape)
+# 		print(np.concatenate((np.ones((1,1)), mapFeature(dummy, degree=6)), axis=1).shape)
+# 		W[i,j] = sigmoid(np.dot(theta.T, np.concatenate((np.ones((1,1)), mapFeature(dummy, degree=6)), axis=1).T))
 
-# plt.contour(U, V, W.T, levels=[0], cmap=plt.cm.Paired, linestyles="dashed")
+# # plt.contour(U, V, W.T, levels=[0], cmap=plt.cm.Paired, linestyles="dashed")
+# plt.contour(U, V, W.T, cmap=plt.cm.viridis, linestyles="dashed")
+# plt.colorbar()
 
 # plt.xlim(-0.95, 1.2)
 # plt.ylim(-0.8, 1.2)
