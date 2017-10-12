@@ -24,9 +24,15 @@ def costFunction(theta, X, y):
 
 
 X = np.loadtxt(os.path.join("..", "data", "ex2data1.csv"), delimiter=",")
-[m,n] = X.shape
-y = X[:,[-1]]
-X = np.delete(X, -1, axis=1)
+### Transform 'X' to follow standard notation of (# features)x(# data points)
+X = X.T
+### Assign 'y' as the classification vector
+y = X[-1]
+### Remove 'y' from X
+## In NumPy: 'axis=0' corresponds to the rows and 'axis=1' corresponds to the columns
+X = np.delete(X, -1, axis=0)
+## 'n' is the # of features and 'm' is the # of data points
+[n,m] = X.shape
 
 print("X:", X.shape, type(X))
 print("y:", y.shape, type(y))
